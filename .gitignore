@@ -61,5 +61,13 @@
 *.classpath
 *.launch
 
+# CMake files
+/build/CMakeLists.txt.user
+/build/CMakeLists.txt.in
+/build/CMakeCache.txt
+/build/cmake_install.cmake
+/build/CTestTestfile.cmake
+/build/cmake-build-*/
+
 # Other
 *.log
