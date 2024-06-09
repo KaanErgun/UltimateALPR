@@ -1,0 +1,4 @@
+horizontal_line_position=0.75
+vertical_motion_direction=1
+min_car_area=50000
+export_vehicle_image=1

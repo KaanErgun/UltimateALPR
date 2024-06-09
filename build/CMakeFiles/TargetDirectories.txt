@@ -1,0 +1,3 @@
+/Users/kaanergun/UltimateALPR/build/CMakeFiles/ultimate_alpr.dir
+/Users/kaanergun/UltimateALPR/build/CMakeFiles/edit_cache.dir
+/Users/kaanergun/UltimateALPR/build/CMakeFiles/rebuild_cache.dir
