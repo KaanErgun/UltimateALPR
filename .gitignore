@@ -1,7 +1,5 @@
 # Build artifacts
 /build/
-/bin/
-/obj/
 
 # Compiled dynamic libraries
 *.dll
@@ -62,12 +60,12 @@
 *.launch
 
 # CMake files
-/build/CMakeLists.txt.user
-/build/CMakeLists.txt.in
-/build/CMakeCache.txt
-/build/cmake_install.cmake
-/build/CTestTestfile.cmake
-/build/cmake-build-*/
+/CMakeLists.txt.user
+/CMakeLists.txt.in
+/CMakeCache.txt
+/cmake_install.cmake
+/CTestTestfile.cmake
+/cmake-build-*/
 
 # Other
 *.log
