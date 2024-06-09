@@ -13,64 +13,6 @@
 #include <ctime>
 
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
-
-#include <libusbrelay.h>
-
-#ifdef __cplusplus
-}
-#endif
-
-#ifdef __cplusplus
-
-/*
-Renk kodları aşağıdaki gibidir:
-
-
-31 - Kırmızı
-32 - Yeşil
-33 - Sarı
-34 - Mor
-35 - Pembe
-36 - Mavi
-37 - Gri
-
-echo -e "\033[31mMakdos Blog\033[0m"
-Yukarıdaki komutun açıklamaları:
-
-
-\033[       :octal \033   ,  ESC karakterine karşılık gelir.
-31           :kırmızı renk kodu
-m            :graphical modu uygulama
-\033[0m  :graphical modu resetleme
-*/
-void gate_open()
-{
-	enumerate_relay_boards(getenv("USBID"), 1, 1);
-	relay_board *board = find_board("BITFT", 1);
-	if (board) {
-	//	printf("HID Serial: %s ", board->serial);
-		printf("\033[32mThe door is opening!\033[0m\n");
-		operate_relay((const char *)"BITFT", 1, CMD_ON, 1);
-		//std::this_thread::sleep_for(std::chrono::milliseconds(5000));
-		sleep(5);
-		operate_relay((const char *)"BITFT", 1, CMD_OFF, 1);
-		printf("\033[31mThe door is closed!\033[0m\n");
-	}
-}
-
-#else
-
-void gate_open()
-{
-	printf("Only C++\n");
-}
-
-#endif
-
 PlateWorker *PlateWorker::m_workerRef = nullptr;
 
 PlateWorker::PlateWorker(std::string gate_serialport, std::vector<std::string> plates)
@@ -156,9 +98,6 @@ void PlateWorker::write_log(std::string msg)
     }
 }
 
-char cmd_set_relay_high[3] = {0xFF, 0x01, 0x01};
-char cmd_set_relay_low[3] = {0xFF, 0x01, 0x00};
-
 void PlateWorker::dowork(const PlateWorkerTask &task)
 {
 
@@ -183,37 +122,33 @@ void PlateWorker::dowork(const PlateWorkerTask &task)
     /// OPEN GATE
     std::cout << "Gate 1 is opening for the number plate -> \"" << task.founded_plate << "\"" << std::endl;
     write_log("Gate 1 is opening for the number plate -> \"" + task.founded_plate + "\"");
-    
-    gate_open();
-/*
+
     int fd, sercmd, serstat;
 
-    struct termios options;
-
     sercmd = TIOCM_RTS;
-    fd = open(this->gate_serialport_name.c_str(), O_WRONLY); // Open the serial port.
+    fd = open(this->gate_serialport_name.c_str(), O_RDONLY); // Open the serial port.
 
-    tcgetattr(fd, &options);
+    printf("Setting the RTS pin.\n");
+    ioctl(fd, TIOCMBIS, &sercmd); // Set the RTS pin.
 
-    cfsetispeed(&options, B9600);
-    cfsetospeed(&options, B9600);
-
-    tcsetattr(fd, TCSANOW,&options);
-    
-    write(fd, cmd_set_relay_high, 3);
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
-    write(fd, cmd_set_relay_high, 3);
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
-    write(fd, cmd_set_relay_high, 3);
+    // Read the RTS pin status.
+    ioctl(fd, TIOCMGET, &serstat);
+    if (serstat & TIOCM_RTS)
+        printf("RTS pin is set.\n");
+    else
+        printf("RTS pin is reset.\n");
 
     std::this_thread::sleep_for(std::chrono::milliseconds(5000));
 
-    write(fd, cmd_set_relay_low, 3);
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
-    write(fd, cmd_set_relay_low, 3);
-    std::this_thread::sleep_for(std::chrono::milliseconds(50));
-    write(fd, cmd_set_relay_low, 3);
+    printf("Resetting the RTS pin.\n");
+    ioctl(fd, TIOCMBIC, &sercmd); // Reset the RTS pin.
+
+    // Read the RTS pin status.
+    ioctl(fd, TIOCMGET, &serstat);
+    if (serstat & TIOCM_RTS)
+        printf("RTS pin is set.\n");
+    else
+        printf("RTS pin is reset.\n");
 
     close(fd);
-*/
 }

@@ -1,53 +1,45 @@
-#ifndef PLATE_WORKER_H
-#define PLATE_WORKER_H
+#ifndef PLATEWORKER_H
+#define PLATEWORKER_H
 
-#include <thread>
 #include <atomic>
+#include <string>
 #include <vector>
+#include <thread>
 #include <mutex>
 #include <condition_variable>
-#include <string>
 
-class PlateWorkerTask {
-public:
-    PlateWorkerTask() {}
-
+struct PlateWorkerTask {
     std::string founded_plate;
-    int gate_id;
 };
 
-class PlateWorker
-{
-
+class PlateWorker {
 public:
-    explicit PlateWorker(std::string gate_serialport, std::vector<std::string> plates);
+    PlateWorker(std::string gate_serialport, std::vector<std::string> plates);
     ~PlateWorker();
 
-    /// @brief Stop the thread of the worker.
-    static void stop();
-
-    static void addTask(const PlateWorkerTask task);
     static void setRef(PlateWorker *worker);
-    // static PlateWorker* getRef();
+    static void addTask(const PlateWorkerTask task);
 
-    std::mutex notify_mutex;
-    std::condition_variable notify_convariable;
+    void stop();
 
-    std::string gate_serialport_name;
-    std::vector<std::string> plate_list;
+    // Kopyalama işlemlerini sil
+    PlateWorker(const PlateWorker&) = delete;
+    PlateWorker& operator=(const PlateWorker&) = delete;
 
 private:
-    std::unique_ptr<std::thread> m_thread;
-    std::atomic<bool> m_shouldStop = false;
     static PlateWorker *m_workerRef;
-
-    std::mutex m_taskListMutex;
+    std::string gate_serialport_name;
+    std::vector<std::string> plate_list;
+    std::atomic<bool> m_shouldStop;
+    std::unique_ptr<std::thread> m_thread;
+    std::mutex notify_mutex;
+    std::condition_variable notify_convariable;
     std::vector<PlateWorkerTask> m_tasks;
 
-    void process(); // thread loop is here
-    void dowork(const PlateWorkerTask &task);
-
+    void process();
     void write_log(std::string msg);
+    void dowork(const PlateWorkerTask &task);
+    void gate_open();
 };
 
-#endif // PLATE_WORKER
+#endif // PLATEWORKER_H
