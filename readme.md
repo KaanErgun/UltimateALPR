@@ -45,7 +45,8 @@ This project is an Automatic License Plate Recognition (ALPR) system that proces
 ├── camera_1_search_area.txt
 ├── camera_2_search_area.txt
 ├── camera_1_settings.txt
-└── camera_2_settings.txt```
+└── camera_2_settings.txt
+```
 
 
 ## Installation
