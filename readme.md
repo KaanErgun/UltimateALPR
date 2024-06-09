@@ -11,7 +11,7 @@ This project is an Automatic License Plate Recognition (ALPR) system that proces
 
 ## Project Structure
 
-alpr_project/
+```alpr_project/
 ├── CMakeLists.txt
 ├── src/
 │ ├── main.cpp
@@ -45,7 +45,7 @@ alpr_project/
 ├── camera_1_search_area.txt
 ├── camera_2_search_area.txt
 ├── camera_1_settings.txt
-└── camera_2_settings.txt
+└── camera_2_settings.txt```
 
 
 ## Installation
