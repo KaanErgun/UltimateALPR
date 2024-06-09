@@ -1,0 +1,65 @@
+# Build artifacts
+/build/
+/bin/
+/obj/
+
+# Compiled dynamic libraries
+*.dll
+*.so
+*.dylib
+
+# Compiled static libraries
+*.lib
+*.a
+
+# Compiled object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Mac specific files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Thumbnails
+._*
+
+# Archives
+*.tar
+*.tgz
+*.gz
+*.zip
+*.rar
+*.7z
+*.bz2
+*.xz
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.Trash-*
+.nfs*
+
+# IDE specific files
+*.idea/
+*.vscode/
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+*.cproject
+*.project
+*.settings/
+*.classpath
+*.launch
+
+# Other
+*.log
